@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>登录页面</title>
+</head>
+<body>
+  <script src="head.js"></script>
+  <h1>登录页面</h1>
+  <form id="login-form">
+    <label for="username">用户名:</label><br>
+    <input type="text" id="username" name="username"><br>
+    <label for="password">密码:</label><br>
+    <input type="password" id="password" name="password"><br><br>
+    <button type="submit">登录</button>
+  </form>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      // 监听登录表单提交事件
+      $('#login-form').submit(function(e) {
+        e.preventDefault(); // 阻止表单默认提交行为
+
+        var username = $('#username').val();
+        var password = $('#password').val();
+
+        // 发送登录请求获取 JWT 令牌
+        $.ajax({
+          url: 'https://oliverwork.000webhostapp.com/wp-json/wp/v2/rae/user/login',
+          method: 'POST',
+          data: {
+            'username': username,
+            'password': password
+          },
+          success: function(response) {
+            // 将 JWT 令牌保存在本地存储中
+            localStorage.setItem('user_ID', response.user.ID);
+            localStorage.setItem('user_Name', response.user.data.user_nicename);
+            localStorage.setItem('user_Mail', response.user.data.user_email);
+            // console.log(response)
+            // console.log(localStorage)
+
+            // 登录成功后跳转到新增文章页面
+            window.location.href = 'index.html';
+          },
+          error: function(xhr, status, error) {
+            console.log('登录失败：' + error);
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>新增文章</title>
+</head>
+<body>
+  <script src="head.js"></script>
+  <h1>新增文章</h1>
+  <form id="add-post-form">
+    <label for="title">標題:</label><br>
+    <input type="text" id="title" name="title"><br>
+    <label for="content">内容:</label><br>
+    <textarea id="content" name="content"></textarea><br><br>
+    <label for="money">金額:</label><br>
+    <input type="text" id="money" name="money"><br>
+    <label for="fruit">選擇類別：</label>
+      <select id="category">
+          <option value="4">食品</option>
+          <option value="3">運動</option>
+          <option value="5">3C產品</option>
+      </select>
+    <button type="submit">保存</button>
+  </form>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+        console.log('1')
+        console.log(localStorage)
+      // 监听新增文章表单提交事件
+      $('#add-post-form').submit(function(e) {
+        e.preventDefault(); // 阻止表单默认提交行为
+
+        var title = $('#title').val();
+        var content = $('#content').val();
+        var money = $('#money').val();
+        var category = $('#category').val();
+
+        // 从本地存储中获取 ID
+        var user = localStorage.getItem('user_ID');
+        var imageID = localStorage.getItem('imageID');
+
+        // 发送新增文章请求
+        $.ajax({
+          url: 'https://oliverwork.000webhostapp.com/wp-json/wp/v2/rae/post/create',
+          method: 'POST',
+          data: {
+            'title': title,
+            'content': content,
+            'user_id':user,
+            'featured_image': imageID,
+            'money':money,
+            'category':category
+          },
+          // beforeSend: function(xhr) {
+          //   // 在请求头中附加 JWT 令牌
+          //   xhr.setRequestHeader('Authorization', 'Bearer ' + jwtToken);
+          // },
+          success: function(response) {
+            console.log('文章已成功保存！');
+            window.location.href = 'index.html';
+          },
+          error: function(xhr, status, error) {
+            console.log('保存文章失败：' + error);
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

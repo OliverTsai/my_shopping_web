@@ -1,0 +1,34 @@
+table {
+    border: 0px solid black;
+    margin: 0 auto; /* 將表格置中 */
+    width: 220px;
+    height: 300px;
+}
+th {
+    border: 0px solid black;
+    padding: 5px;
+    width: 220px;
+    height: 300px;
+    text-align: center;
+
+
+}
+/* 將圖片置中 */
+img {
+    display: block;
+    margin: 0 auto;
+  }
+  
+  /* 等比例縮小到215px * 215px */
+img {
+    /* max-width: 215px; */
+    max-height: 215px;
+    width: auto;
+    height: auto;
+  }
+  .center-text {
+    display: flex;
+    justify-content: center; /* 水平置中 */
+    align-items: center; /* 垂直置中 */
+    height: 100%; /* 可以根據需要調整高度，保證置中效果正確 */
+  }

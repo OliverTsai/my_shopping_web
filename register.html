@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>註冊賣家</title>
+</head>
+<body>
+    <h1>註冊賣家</h1>
+    <form id="registration-form">
+        <label for="username">你的名稱:</label>
+        <input type="text" id="username" name="username" required>
+        <br>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <br>
+        <label for="password">你的密碼:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <input type="submit" value="Register">
+    </form>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById("registration-form").addEventListener("submit", function (event) {
+            event.preventDefault();
+            console.log(event)
+
+            const formElement = event.target;
+            const formData = new FormData(formElement);
+
+            fetch('https://oliverwork.000webhostapp.com/wp-json/register-apis/finalrope/register-call', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "Registration was Successful") {
+                    document.getElementById('result').textContent = "Registration Successful! User ID: " + data.ID;
+                    window.location.href = 'index.html';
+                } else {
+                    document.getElementById('result').textContent = "Error: " + data.message;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('result').textContent = "Error: Registration Failed";
+            });
+        });
+    </script>
+</body>
+</html>
